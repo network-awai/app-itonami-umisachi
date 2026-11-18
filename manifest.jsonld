@@ -1,6 +1,6 @@
 {
   "@context": {
-    "@vocab": "https://etzhayyim.com/ns/actor#",
+    "@vocab": "https://itonami.cloud/ns/actor#",
     "id": "@id",
     "type": "@type"
   },

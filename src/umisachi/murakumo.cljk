@@ -3,7 +3,7 @@
   (:require [kotoba.lang.text :as str]))
 
 (def actor-did
-  "did:web:umisachi.etzhayyim.com")
+  "did:web:umisachi.itonami.cloud")
 
 (def common-gates
   [:council-charter-attestation
@@ -16,7 +16,7 @@
 
 (defn collection
   [name]
-  (str "com.etzhayyim.umisachi." name))
+  (str "cloud.itonami.umisachi." name))
 
 (def cell-specs {
   :null {:legacy-cell "null"
