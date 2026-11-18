@@ -23,12 +23,13 @@
        ONLY as a :pressure node (the disclosed harm), routed to restoration.
 
   Run:  kbb --classpath 20-actors 20-actors/umisachi/methods/analyze.cljk  -> out/nourishment-report.md"
-  (:require [kotoba.io :as io]
+  (:require #?(:clj [kotoba.io :as io])
             [kotoba.lang.edn :as edn]
             [kotoba.lang.text :as str]))
 
-(def ^:private this-file *file*)
-(defn- actor-root [] (-> this-file io/file io/absolute-file io/parent-file io/parent-file))
+;; File access is JVM-only; the analyzer below is portable (ClojureScript app, AWAI-3502).
+#?(:clj (def ^:private this-file *file*))
+#?(:clj (defn- actor-root [] (-> this-file io/file io/absolute-file io/parent-file io/parent-file)))
 
 ;; provisioning-equity weight of the RECEIVING node (commons widest, proprietary narrowest)
 (def access-weight {:commons 1.0 :open 0.9 :regulated 0.7 :enclosed 0.3 :proprietary 0.1})
@@ -76,8 +77,9 @@
             [{} []]
             maps)))
 
+#?(:clj
 (defn load-file [path]
-  (load-graph (slurp (io/file path))))
+  (load-graph (slurp (io/file path)))))
 
 (defn analyze
   "Edge-primary integrals (computed on read; transient — N1/G2)."
@@ -114,7 +116,7 @@
 
 (defn report-md [nodes edges res]
   (let [auth (count (filter #(= (:organism/sourcing %) :authoritative) (vals nodes)))
-        line (fn [[_ label v]] (format "| %s | %.3f |" label (double v)))]
+        line (fn [[_ label v]] (str/format "| %s | %.3f |" label (double v)))]
     (str/join
      "\n"
      (concat
@@ -126,7 +128,7 @@
             "equitable NOURISHMENT. Stock-status & access are DISCLOSED facts (FAO/RAM/ICES/IUCN/"
             "CCAMLR/ICCAT/MSC), not umisachi verdicts (N3). 取 lives only on edges, on read (N1).")
        ""
-       (format "**Graph**: %d nodes (%d stocks · %d fisheries · %d logistics · %d markets · %d pressures) · %d 縁 · %d/%d :authoritative"
+       (str/format "**Graph**: %d nodes (%d stocks · %d fisheries · %d logistics · %d markets · %d pressures) · %d 縁 · %d/%d :authoritative"
                (count nodes) (kind-count nodes :stock) (kind-count nodes :fishery)
                (kind-count nodes :logistics) (kind-count nodes :market) (kind-count nodes :pressure)
                (count edges) auth (count nodes))
@@ -157,6 +159,7 @@
             "Live ingest (FAO/RFMO catch stats) is G7/Council-gated._")
        ""]))))
 
+#?(:clj (do
 (defn main [& argv]
   (let [seed (or (first (remove #(str/starts-with? % "--") argv))
                  (str (io/file (actor-root) "data" "seed-umisachi-graph.kotoba.edn")))
@@ -172,4 +175,4 @@
       (println (format "  top 取-holder:    %s (%.3f)" (nth top 1) (double (nth top 2)))))))
 
 (when (= *file* (System/getProperty "babashka.file"))
-  (apply main *command-line-args*))
+  (apply main *command-line-args*))))
