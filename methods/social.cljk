@@ -20,7 +20,7 @@
 
 (def ^:private this-file *file*)
 (defn- actor-root [] (-> this-file io/file io/absolute-file io/parent-file io/parent-file))
-(def actor-did "did:web:etzhayyim.com:actor:umisachi")
+(def actor-did "did:web:itonami.cloud:actor:umisachi")
 
 ;; Charter Rider §2(a)-(h) deny + a G1 catch-target deny (no coordinates / 'where to fish' /
 ;; 'catch here' — a restoration map must never read as an exploitation target-list).

@@ -1,7 +1,7 @@
-{:did        "did:web:etzhayyim.github.io:com-etzhayyim-umisachi"
- :handle     "umisachi.etzhayyim.com"
+{:did        "did:web:itonami.github.io:app-itonami-umisachi"
+ :handle     "umisachi.itonami.cloud"
  :ipns-key   "umisachi-actor"
- :graph-type "com.etzhayyim.umisachi.graph"
+ :graph-type "cloud.itonami.umisachi.graph"
  :published  "2026-06-28"
  :bundle [["data" "data"]
           [".well-known/did.json" "did.json"]
